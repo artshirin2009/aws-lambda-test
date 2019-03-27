@@ -1,0 +1,56 @@
+
+service: mysql-api-serverless 
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-central-1
+
+functions:
+  getRedis:
+    handler: functions/getRedis.getRedis
+    events:
+      - http:
+          path: db/redis
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
+  getAll:
+    handler: functions/getAll.getAll
+    events:
+      - http:
+          path: db
+          method: get
+          cors: true
+  getOne:
+      handler: functions/getOne.getOne
+      events: 
+        - http:
+            path: db/{id}
+            method: get
+            cors: true
+  create:
+    handler: functions/create.create
+    events: 
+      - http:
+          path: db
+          method: post
+          cors: true
+  deleteOne:
+    handler: functions/deleteOne.deleteOne
+    events: 
+      - http:
+          path: db/{id}
+          method: delete
+          cors: true
+  deleteAll:
+    handler: functions/deleteAll.deleteAll
+    events: 
+      - http:
+          path: db
+          method: delete
+          cors: true
