@@ -7,12 +7,48 @@ provider:
   region: eu-central-1
 
 functions:
-  getRedis:
-    handler: functions/getRedis.getRedis
+  # storeRedisDataToMaria:
+  #     handler: functions/storeRedisDataToMaria.storeRedisDataToMaria
+  #     events:
+  #       - http:
+  #           path: db/redisData
+  #           method: get
+  #           cors: true
+  #     vpc:
+  #       securityGroupIds:
+  #         - sg-46415228
+  #       subnetIds:
+  #         - subnet-9bcc27f1
+  getAllRedisData:
+      handler: functions/getAllRedisData.getAllRedisData
+      events:
+        - http:
+            path: db/getAllRedisData
+            method: get
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
+  getRedisData:
+      handler: functions/getRedisData.getRedisData
+      events:
+        - http:
+            path: db/redisData/{id}
+            method: get
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
+  saveToRedis:
+    handler: functions/saveToRedis.saveToRedis
     events:
       - http:
           path: db/redis
-          method: get
+          method: post
           cors: true
     vpc:
       securityGroupIds:
