@@ -3,38 +3,53 @@ require('dotenv').config();
 var mysql = require('promise-mysql');
 var redis = require('redis')
 
-module.exports.getRedisData = (event, context, callback) => {
-  console.log('getting Redis Data');
+module.exports.hmgetRedis = (event, context, callback) => {
+  console.log('getting Red is Data');
 
   const client = redis.createClient({ url: 'redis://mywebcahe1.fsgenx.0001.euc1.cache.amazonaws.com:6379' });
-
 
   client.on("error", (err) => {
     console.log('error there');
     client.quit();
     callback(err, null);
   });
-  let id = event.pathParameters.id;
-  //let firstName = event.pathParameters.firstName;
-  let firstName = 'firstName'
-  console.log(id)
+  let hash = event.pathParameters.id;
+  let value1 = event.pathParameters.value1;
+  let value2 = event.pathParameters.value2;
+  let value3 = event.pathParameters.value3;
 
-  client.hget(id, firstName, function (err, obj) {
-    if (!obj) {
-      callback(err)
+  
+  client.hkeys(hash, function (err, keys) {
+    if (err) {
+      return res.status(500).json({ message: `There was a problem with saving object to redis`, data: { ...err.errors } });
     }
-    else {
-      //obj.id = id
-      console.log(obj)
-      const response = {
-        statusCode: 200,
-        body: JSON.stringify(obj)
+
+
+
+    client.hmget(hash, value1, value2, value3, function (err, obj) {
+      if (!obj) {
+        callback(err)
       }
-      client.quit();
-      callback(null, response);
+      else {
+        console.log(keys);
+        console.log(obj)
+        const response = {
+          statusCode: 200,
+          body: JSON.stringify(obj)
+        }
+        client.quit();
+        callback(null, response);
+  
+      }
+    })
 
-    }
-  })
+
+
+
+  });
+
+
+
 
 
 

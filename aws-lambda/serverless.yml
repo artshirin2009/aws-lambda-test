@@ -7,6 +7,18 @@ provider:
   region: eu-central-1
 
 functions:
+  hgetallRedis:
+    handler: functions/hgetallRedis.hgetallRedis
+    events:
+      - http:
+          path: db/redis/hgetall/{hash}
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
   # storeRedisDataToMaria:
   #     handler: functions/storeRedisDataToMaria.storeRedisDataToMaria
   #     events:
@@ -19,6 +31,81 @@ functions:
   #         - sg-46415228
   #       subnetIds:
   #         - subnet-9bcc27f1
+  hkeysRedis:
+    handler: functions/hkeysRedis.hkeysRedis
+    events:
+      - http:
+          path: db/redis/hkeys
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
+  flushdbRedis:
+      handler: functions/flushdbRedis.flushdbRedis
+      events:
+        - http:
+            path: db/redisData/
+            method: delete
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
+  hmgetRedis:
+      handler: functions/hmgetRedis.hmgetRedis
+      events:
+        - http:
+            path: db/redisData/hmget/{id}/{value1}/{value2}/{value3}/{value4}
+            method: get
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
+  hgetRedis:
+      handler: functions/hgetRedis.hgetRedis
+      events:
+        - http:
+            path: db/redisData/{id}/{key}
+            method: get
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
+  hmsetRedis:
+    handler: functions/hmsetRedis.hmsetRedis
+    events:
+      - http:
+          path: db/redis/hmset
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
+  hsetRedis:
+    handler: functions/hsetRedis.hsetRedis
+    events:
+      - http:
+          path: db/redis
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
+
+
+
   getAllRedisData:
       handler: functions/getAllRedisData.getAllRedisData
       events:
@@ -31,30 +118,20 @@ functions:
           - sg-46415228
         subnetIds:
           - subnet-9bcc27f1
-  getRedisData:
-      handler: functions/getRedisData.getRedisData
-      events:
-        - http:
-            path: db/redisData/{id}
-            method: get
-            cors: true
-      vpc:
-        securityGroupIds:
-          - sg-46415228
-        subnetIds:
-          - subnet-9bcc27f1
-  saveToRedis:
-    handler: functions/saveToRedis.saveToRedis
-    events:
-      - http:
-          path: db/redis
-          method: post
-          cors: true
-    vpc:
-      securityGroupIds:
-        - sg-46415228
-      subnetIds:
-        - subnet-9bcc27f1
+  
+  # getRedisData:
+  #     handler: functions/getRedisData.getRedisData
+  #     events:
+  #       - http:
+  #           path: db/redisData/{id}
+  #           method: get
+  #           cors: true
+  #     vpc:
+  #       securityGroupIds:
+  #         - sg-46415228
+  #       subnetIds:
+  #         - subnet-9bcc27f1
+  
   getAll:
     handler: functions/getAll.getAll
     events:

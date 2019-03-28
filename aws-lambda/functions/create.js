@@ -4,6 +4,7 @@ const mysql = require('promise-mysql');
 
 module.exports.create = (event, context, callback) => {
 
+  console.log('start 1')
   mysql
     .createConnection({
       host: process.env.HOST,
@@ -13,6 +14,7 @@ module.exports.create = (event, context, callback) => {
     })
     
     .then((conn) => {
+      console.log('start 2')
       const data = JSON.parse(event.body);
       Promise
       .all(data.map(item => new Promise((resolve) => {

@@ -3,7 +3,7 @@ require('dotenv').config();
 var mysql = require('promise-mysql');
 var redis = require('redis')
 
-module.exports.getRedisData = (event, context, callback) => {
+module.exports.hgetRedis = (event, context, callback) => {
   console.log('getting Redis Data');
 
   const client = redis.createClient({ url: 'redis://mywebcahe1.fsgenx.0001.euc1.cache.amazonaws.com:6379' });
@@ -14,12 +14,10 @@ module.exports.getRedisData = (event, context, callback) => {
     client.quit();
     callback(err, null);
   });
-  let id = event.pathParameters.id;
-  //let firstName = event.pathParameters.firstName;
-  let firstName = 'firstName'
-  console.log(id)
+  let hash = event.pathParameters.id;
+  let key = event.pathParameters.key;
 
-  client.hget(id, firstName, function (err, obj) {
+  client.hget(hash, key, function (err, obj) {
     if (!obj) {
       callback(err)
     }
