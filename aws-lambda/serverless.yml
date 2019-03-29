@@ -7,6 +7,18 @@ provider:
   region: eu-central-1
 
 functions:
+  createUsersInDb:
+    handler: functions/createUsersInDb.createUsersInDb
+    events:
+      - http:
+          path: db/redis/createUsersInDb
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
   hgetRedisFinal:
     handler: functions/hgetRedisFinal.hgetRedisFinal
     events:

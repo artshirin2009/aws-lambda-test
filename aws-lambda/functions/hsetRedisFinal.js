@@ -13,6 +13,7 @@ module.exports.hsetRedisFinal = (event, context, callback) => {
 
   let user = JSON.parse(event.body);
   let hash = user.hash;
+  console.log('there')
   client.hset(
     hash,
     `user-${user.id}`,
@@ -20,11 +21,13 @@ module.exports.hsetRedisFinal = (event, context, callback) => {
       id: user.id,
       name: user.name,
       age: user.age
+
     }),
     function (err, reply) {
       if (err) {
         return res.status(500).json({ message: `There was a problem with saving object to redis`, data: { ...err.errors } });
       }
+      console.log('there - end')
       const response = {
         statusCode: 200,
         body: JSON.stringify(reply)
