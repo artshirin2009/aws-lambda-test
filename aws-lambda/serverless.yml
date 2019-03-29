@@ -7,6 +7,30 @@ provider:
   region: eu-central-1
 
 functions:
+  hgetRedisFinal:
+    handler: functions/hgetRedisFinal.hgetRedisFinal
+    events:
+      - http:
+          path: db/redis/hgetfinal/{hash}
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
+  hsetRedisFinal:
+    handler: functions/hsetRedisFinal.hsetRedisFinal
+    events:
+      - http:
+          path: db/redis/hsetfinal
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - sg-46415228
+      subnetIds:
+        - subnet-9bcc27f1
   hgetallRedis:
     handler: functions/hgetallRedis.hgetallRedis
     events:
