@@ -8,7 +8,7 @@ provider:
 
 functions:
   createUsersInDb:
-    handler: functions/createUsersInDb.createUsersInDb
+    handler: work/createUsersInDb.createUsersInDb
     events:
       - http:
           path: db/redis/createUsersInDb
@@ -19,8 +19,20 @@ functions:
         - sg-46415228
       subnetIds:
         - subnet-9bcc27f1
+  flushdbRedis:
+      handler: work/flushdbRedis.flushdbRedis
+      events:
+        - http:
+            path: db/redisData/
+            method: delete
+            cors: true
+      vpc:
+        securityGroupIds:
+          - sg-46415228
+        subnetIds:
+          - subnet-9bcc27f1
   hgetRedisFinal:
-    handler: functions/hgetRedisFinal.hgetRedisFinal
+    handler: work/hgetRedisFinal.hgetRedisFinal
     events:
       - http:
           path: db/redis/hgetfinal/{hash}
@@ -32,7 +44,7 @@ functions:
       subnetIds:
         - subnet-9bcc27f1
   hsetRedisFinal:
-    handler: functions/hsetRedisFinal.hsetRedisFinal
+    handler: work/hsetRedisFinal.hsetRedisFinal
     events:
       - http:
           path: db/redis/hsetfinal
@@ -55,18 +67,6 @@ functions:
         - sg-46415228
       subnetIds:
         - subnet-9bcc27f1
-  # storeRedisDataToMaria:
-  #     handler: functions/storeRedisDataToMaria.storeRedisDataToMaria
-  #     events:
-  #       - http:
-  #           path: db/redisData
-  #           method: get
-  #           cors: true
-  #     vpc:
-  #       securityGroupIds:
-  #         - sg-46415228
-  #       subnetIds:
-  #         - subnet-9bcc27f1
   hkeysRedis:
     handler: functions/hkeysRedis.hkeysRedis
     events:
@@ -79,18 +79,7 @@ functions:
         - sg-46415228
       subnetIds:
         - subnet-9bcc27f1
-  flushdbRedis:
-      handler: functions/flushdbRedis.flushdbRedis
-      events:
-        - http:
-            path: db/redisData/
-            method: delete
-            cors: true
-      vpc:
-        securityGroupIds:
-          - sg-46415228
-        subnetIds:
-          - subnet-9bcc27f1
+  
   hmgetRedis:
       handler: functions/hmgetRedis.hmgetRedis
       events:
@@ -154,19 +143,6 @@ functions:
           - sg-46415228
         subnetIds:
           - subnet-9bcc27f1
-  
-  # getRedisData:
-  #     handler: functions/getRedisData.getRedisData
-  #     events:
-  #       - http:
-  #           path: db/redisData/{id}
-  #           method: get
-  #           cors: true
-  #     vpc:
-  #       securityGroupIds:
-  #         - sg-46415228
-  #       subnetIds:
-  #         - subnet-9bcc27f1
   
   getAll:
     handler: functions/getAll.getAll
