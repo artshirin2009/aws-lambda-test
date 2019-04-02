@@ -7,8 +7,8 @@ provider:
   region: eu-central-1
 
 functions:
-  createUsersInDb:
-    handler: work/createUsersInDb.createUsersInDb
+  storeFromRedisToMaria:
+    handler: work/storeFromRedisToMaria.handler
     events:
       - http:
           path: db/redis/createUsersInDb

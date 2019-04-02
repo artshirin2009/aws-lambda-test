@@ -12,7 +12,7 @@ module.exports.getAll = (event, context, callback) => {
       database: process.env.DATABASE
     })
     .then(function (conn) {
-      var result = conn.query('SELECT * FROM users');
+      var result = conn.query('SELECT * FROM aff_data');
       conn.end();
       return result;
     })

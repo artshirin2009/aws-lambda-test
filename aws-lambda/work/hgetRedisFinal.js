@@ -12,11 +12,13 @@ module.exports.hgetRedisFinal = (event, context, callback) => {
   });
 
   client.hgetall(event.pathParameters.hash, (err, result) => {
-    var arr = valuesToArray(result);
-    var finArr = []
-    arr.forEach(element => {
-      finArr.push(JSON.parse(element))
-    });
+    console.log(result)
+    // var arr = valuesToArray(result);
+    // var finArr = []
+    // arr.forEach(element => {
+    //   finArr.push(JSON.parse(element))
+    // });
+    
     const response = {
       statusCode: 200,
       body: JSON.stringify(finArr)

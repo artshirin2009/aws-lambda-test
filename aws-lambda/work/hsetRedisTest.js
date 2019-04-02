@@ -36,22 +36,19 @@ module.exports.hsetRedisFinal = (event, context, callback) => {
   //     client.quit();
   //     callback(null, response);
   //   });
-  
-let keyValues = [
-  `session_token`,`${item.session_token}`,
-  `date`,`${item.date}`,
-  `affiliate_name`,`${item.affiliate_name}`,
-  `list_pos`,`${item.list_pos}`,
-  `outbound_url`,`${item.outbound_url}`,
-  `request_token`,`${item.request_token}`,
-  `list_name`,`${item.list_name}`
-  ];
-
-  console.log(keyValues);
 
   client.hset(
     hash,
-    `${hash}-${item.id}`, keyValues,
+    `${hash}-${item.id}`,
+    JSON.stringify({
+      session_token: item.session_token,
+      date: item.date,
+      affiliate_name: item.affiliate_name,
+      list_pos: item.list_pos,
+      outbound_url: item.outbound_url,
+      request_token: item.request_token,
+      list_name: item.list_name
+    }),
     function (err, reply) {
       if (err) {
         return res.status(500).json({ message: `There was a problem with saving object to redis`, data: { ...err.errors } });
